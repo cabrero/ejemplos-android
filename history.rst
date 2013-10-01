@@ -8,3 +8,6 @@ $ ant debug
 $ android avd
 $ adb install bin/IPM_Time_App-debug.apk 
 
+$ git commit
+
+
