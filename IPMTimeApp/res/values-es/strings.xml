@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">¡Hola Mundo!</string>
+    <string name="isTime">Son las %1$s</string>
 </resources>

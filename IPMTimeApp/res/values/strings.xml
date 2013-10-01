@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">IPM Android Tutorial</string>
     <string name="hello">Hello World!</string>
+    <string name="isTime">It\'s %1$s</string>
 </resources>
