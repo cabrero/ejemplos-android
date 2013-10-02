@@ -10,4 +10,12 @@ $ adb install bin/IPM_Time_App-debug.apk
 
 $ git commit
 
-
+=====
+Hello Time
+=====
+- Además del hola mundo, mostramos la hora.
+- Hacemos que la hora se actualize al volver del background.
+- Hacemos que la hora se actualize mientras estamos en foreground.
+- Comprobamos que el handler.postDelayed sigue funcionando cuando estamos en
+  background usando el Log
+- Borramos la cola del handler antes de irnos a background.
