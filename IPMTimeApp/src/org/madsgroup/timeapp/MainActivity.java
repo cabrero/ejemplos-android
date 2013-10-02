@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.text.format.Time;
 import android.widget.TextView;
 import android.os.Handler;
+import android.util.Log;
 
 public class MainActivity extends Activity
 {
+    private static final String TAG = "IPM_TUT";
 	
     private TextView _tvTime;
     private Handler _handler;
@@ -30,8 +32,16 @@ public class MainActivity extends Activity
         _updateTime();
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        _handler.removeCallbacksAndMessages(null);
+    }
+
     private void _updateTime()
     {
+        Log.v(TAG, "update time");
 	Time now = new Time();
 	now.setToNow();
 	String labelText = String.format(getString(R.string.isTime),
