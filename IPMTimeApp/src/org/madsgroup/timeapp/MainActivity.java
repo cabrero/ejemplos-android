@@ -44,9 +44,7 @@ public class MainActivity extends Activity
         Log.v(TAG, "update time");
 	Time now = new Time();
 	now.setToNow();
-	String labelText = String.format(getString(R.string.isTime),
-					 now.format("%H:%M"));
-	_tvTime.setText(labelText);
+	_tvTime.setText(getString(R.string.isTime, now.format("%H:%M")));
 	long delay = Math.abs(60 - now.second) * 1000;
 	_handler.postDelayed(new Runnable() {
 			public void run() {
