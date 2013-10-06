@@ -38,7 +38,6 @@ public class City {
 
     private String _time() {
 	Calendar cal = new GregorianCalendar(TimeZone.getTimeZone(_timeZone));
-	cal.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
 	return String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
 
     }
