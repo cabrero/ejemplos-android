@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
 
 
 public class MainActivity extends Activity
@@ -59,9 +62,7 @@ public class MainActivity extends Activity
 	_tvTime = (TextView) findViewById(R.id.label4time);
 	_handler = new Handler();
         ListView citiesListView = (ListView) findViewById(R.id.citiesList);
-	_citiesListViewAdapter = new ArrayAdapter<City>(this,
-							android.R.layout.simple_list_item_1,
-							_cities);
+	_citiesListViewAdapter = new CitiesArrayAdapter(this, _cities);
 	citiesListView.setAdapter(_citiesListViewAdapter);
     }
 
@@ -94,4 +95,44 @@ public class MainActivity extends Activity
 		},
 		delay);
     }
+
+
+    static class CityRowViewCache {
+	public TextView tvName;
+	public TextView tvTime;
+    }
+
+    private class CitiesArrayAdapter extends ArrayAdapter<City> {
+	private Activity _context;
+	private City[] _cities;
+
+	public CitiesArrayAdapter(Activity context, City[] cities) {
+	    super(context, R.layout.city_row, cities);
+	    _context = context;
+	    _cities = cities;
+	}
+
+	@Override
+	public View getView(int position, View contentView, ViewGroup parent) {
+	    View rowView = contentView;
+	    CityRowViewCache cityRowViewCache;
+
+	    if (rowView == null) {
+		LayoutInflater inflater = _context.getLayoutInflater();
+		rowView = inflater.inflate(android.R.layout.simple_list_item_2, null, true);
+		cityRowViewCache = new CityRowViewCache();
+		cityRowViewCache.tvName = (TextView) rowView.findViewById(android.R.id.text2);
+		cityRowViewCache.tvTime = (TextView) rowView.findViewById(android.R.id.text1);
+		rowView.setTag(cityRowViewCache);
+	    }
+	    else {
+		cityRowViewCache = (CityRowViewCache) rowView.getTag();
+	    }
+
+	    cityRowViewCache.tvName.setText(_cities[position].name());
+	    cityRowViewCache.tvTime.setText(_cities[position].localTime());
+
+	    return rowView;
+	}
+    } 
 }

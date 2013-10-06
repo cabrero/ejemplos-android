@@ -28,6 +28,14 @@ public class City {
 	return _name + " " + _time();
     }
 
+    public String name() {
+	return _name;
+    }
+
+    public String localTime() {
+	return _time();
+    }
+
     private String _time() {
 	Calendar cal = new GregorianCalendar(TimeZone.getTimeZone(_timeZone));
 	cal.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
