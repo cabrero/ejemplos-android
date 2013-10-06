@@ -31,3 +31,6 @@ Hello World Time
 Hello Time, I'm in Internet
 =====
 - Declaramos permiso para acceder a Internet en el Manifiesto.
+- Los datos horarios de la primera ciudad se ponen a 0, y se descargan desde el
+  webservice de google al crear la app.
+  Problema 1: No se muestra nada en pantalla hasta que termina de cargar los datos.

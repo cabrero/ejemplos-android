@@ -11,6 +11,14 @@ import android.widget.ArrayAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONObject;
+import org.json.JSONException;
+import java.io.IOException;
+import java.util.Scanner;
+import java.net.MalformedURLException;
+import java.util.Locale;
 
 
 public class MainActivity extends Activity
@@ -24,7 +32,7 @@ public class MainActivity extends Activity
     private City[] _cities = new City[22];
     private void _init() {
 	int i = 0;
-        _cities[i++] = new City("Madrid", 40.4165, -3.70256, 3600, 3600, "Europe/Madrid", "Central European Summer Time");
+        _cities[i++] = new City("Madrid", 40.4165, -3.70256, 0, 0, null, null);
         _cities[i++] = new City("Barcelona", 41.38879, 2.15899, 3600, 3600, "Europe/Madrid", "Central European Summer Time");
         _cities[i++] = new City("Amsterdam", 52.37403, 4.88969, 3600, 3600, "Europe/Amsterdam", "Central European Summer Time");
         _cities[i++] = new City("Stockholm", 59.33258, 18.0649, 3600, 3600, "Europe/Stockholm", "Central European Summer Time");
@@ -64,6 +72,8 @@ public class MainActivity extends Activity
         GridView citiesGridView = (GridView) findViewById(R.id.citiesGrid);
 	_citiesGridViewAdapter = new CitiesArrayAdapter(this, _cities);
 	citiesGridView.setAdapter(_citiesGridViewAdapter);
+
+	_loadCityTimeData();
     }
 
     @Override
@@ -96,6 +106,55 @@ public class MainActivity extends Activity
 		delay);
     }
 
+    private void _loadCityTimeData() {
+	HttpsURLConnection urlConnection = null;
+	String urlStr = "https://maps.googleapis.com/maps/api/timezone/json?location=%f,%f&timestamp=%d&sensor=false";
+	Time now = new Time();
+	now.setToNow();
+	long timestamp = now.toMillis(true) / 1000;
+	City city = _cities[0];
+	URL url = null;
+	try {
+	    url = new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp));
+	    Log.v(TAG, "URL = " + url.toString());
+	}
+	catch (MalformedURLException e) {
+
+	}
+	try {
+	    urlConnection = (HttpsURLConnection) url.openConnection();
+	    urlConnection.setRequestProperty("Connection", "Keep-Alive");
+	}
+	catch (IOException e) {
+
+	}
+	try {
+	    if (urlConnection.getResponseCode() == 200) {
+		Scanner scanner = new Scanner(urlConnection.getInputStream());
+		scanner.useDelimiter("\\Z");
+		String jsonResponseStr = scanner.next();
+		Log.v(TAG, "Got response: " + jsonResponseStr);
+		JSONObject jsonResponse = new JSONObject(jsonResponseStr);
+		_cities[0] = new City(city.name(), city._lat, city._lng,
+				      jsonResponse.getInt("dstOffset"),
+				      jsonResponse.getInt("rawOffset"),
+				      jsonResponse.getString("timeZoneId"),
+				      jsonResponse.getString("timeZoneName"));
+	    }
+	    else {
+	    }
+
+	}
+	catch (IOException e) {
+
+	}
+	catch (JSONException e) {
+
+	}
+	finally {
+	    urlConnection.disconnect();
+	}
+    }
 
     static class CityRowViewCache {
 	public TextView tvName;

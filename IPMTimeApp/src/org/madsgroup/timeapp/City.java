@@ -7,8 +7,8 @@ import java.util.TimeZone;
 public class City {
 
     private String _name;
-    private double _lat;
-    private double _lng;
+    double _lat;
+    double _lng;
     private int _dstOffset;
     private int _rawOffset;
     private String _timeZone;
@@ -33,7 +33,10 @@ public class City {
     }
 
     public String localTime() {
-	return _time();
+	if (_timeZone != null)
+	    return _time();
+	else
+	    return "??:??";
     }
 
     private String _time() {
