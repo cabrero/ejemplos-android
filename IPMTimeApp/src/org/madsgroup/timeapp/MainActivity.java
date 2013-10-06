@@ -33,27 +33,27 @@ public class MainActivity extends Activity
     private void _init() {
 	int i = 0;
         _cities[i++] = new City("Madrid", 40.4165, -3.70256, 0, 0, null, null);
-        _cities[i++] = new City("Barcelona", 41.38879, 2.15899, 3600, 3600, "Europe/Madrid", "Central European Summer Time");
-        _cities[i++] = new City("Amsterdam", 52.37403, 4.88969, 3600, 3600, "Europe/Amsterdam", "Central European Summer Time");
-        _cities[i++] = new City("Stockholm", 59.33258, 18.0649, 3600, 3600, "Europe/Stockholm", "Central European Summer Time");
-        _cities[i++] = new City("Sydney", -33.86785, 151.20732, 0, 36000, "Australia/Sydney", "Australian Eastern Standard Time");
-        _cities[i++] = new City("Zurich", 47.36667, 8.55, 3600, 3600, "Europe/Zurich", "Central European Summer Time");
-        _cities[i++] = new City("Vienna", 48.20849, 16.37208, 3600, 3600, "Europe/Vienna", "Central European Summer Time");
-        _cities[i++] = new City("Copenhagen", 55.67594, 12.56553, 3600, 3600, "Europe/Copenhagen", "Central European Summer Time");
-        _cities[i++] = new City("Vancouver", 49.24966, -123.11934, 3600, -28800, "America/Vancouver", "Pacific Daylight Time");
-        _cities[i++] = new City("Helsinki", 60.16952, 24.93545, 3600, 7200, "Europe/Helsinki", "Eastern European Summer Time");
-        _cities[i++] = new City("Paris", 48.85341, 2.3488, 3600, 3600, "Europe/Paris", "Central European Summer Time");
-        _cities[i++] = new City("Honolulu", 21.30694, -157.85833, 0, -36000, "Pacific/Honolulu", "Hawaii-Aleutian Standard Time");
-        _cities[i++] = new City("Melbourne", -37.814, 144.96332, 0, 36000, "Australia/Hobart", "Australian Eastern Standard Time");
-        _cities[i++] = new City("Berlin", 52.52437, 13.41053, 3600, 3600, "Europe/Berlin", "Central European Summer Time");
-        _cities[i++] = new City("Tokyo", 35.6895, 139.69171, 0, 32400, "Asia/Tokyo", "Japan Standard Time");
-        _cities[i++] = new City("Auckland", -36.86667, 174.76667, 3600, 43200, "Pacific/Auckland", "New Zealand Daylight Time");
-        _cities[i++] = new City("Kyoto", 35.02107, 135.75385, 0, 32400, "Asia/Tokyo", "Japan Standard Time");
-        _cities[i++] = new City("Munich", 48.13743, 11.57549, 3600, 3600, "Europe/Berlin", "Central European Summer Time");
-        _cities[i++] = new City("Hamburg", 53.57532, 10.01534, 3600, 3600, "Europe/Berlin", "Central European Summer Time");
-        _cities[i++] = new City("Singapore", 1.28967, 103.85007, 0, 28800, "Asia/Singapore", "Singapore Standard Time");
-        _cities[i++] = new City("Duesseldorf", 51.22172, 6.77616, 3600, 3600, "Europe/Berlin", "Central European Summer Time");
-        _cities[i++] = new City("Fukuoka", 33.60639, 130.41806, 0, 32400, "Asia/Tokyo", "Japan Standard Time");
+        _cities[i++] = new City("Barcelona", 41.38879, 2.15899, 0, 0, null, null);
+        _cities[i++] = new City("Amsterdam", 52.37403, 4.88969, 0, 0, null, null);
+        _cities[i++] = new City("Stockholm", 59.33258, 18.0649, 0, 0, null, null);
+        _cities[i++] = new City("Sydney", -33.86785, 151.20732, 0, 0, null, null);
+        _cities[i++] = new City("Zurich", 47.36667, 8.55, 0, 0, null, null);
+        _cities[i++] = new City("Vienna", 48.20849, 16.37208, 0, 0, null, null);
+        _cities[i++] = new City("Copenhagen", 55.67594, 12.56553, 0, 0, null, null);
+        _cities[i++] = new City("Vancouver", 49.24966, -123.11934, 0, 0, null, null);
+        _cities[i++] = new City("Helsinki", 60.16952, 24.93545, 0, 0, null, null);
+        _cities[i++] = new City("Paris", 48.85341, 2.3488, 0, 0, null, null);
+        _cities[i++] = new City("Honolulu", 21.30694, -157.85833, 0, 0, null, null);
+        _cities[i++] = new City("Melbourne", -37.814, 144.96332, 0, 0, null, null);
+        _cities[i++] = new City("Berlin", 52.52437, 13.41053, 0, 0, null, null);
+        _cities[i++] = new City("Tokyo", 35.6895, 139.69171, 0, 0, null, null);
+        _cities[i++] = new City("Auckland", -36.86667, 174.76667, 0, 0, null, null);
+        _cities[i++] = new City("Kyoto", 35.02107, 135.75385, 0, 0, null, null);
+        _cities[i++] = new City("Munich", 48.13743, 11.57549, 0, 0, null, null);
+        _cities[i++] = new City("Hamburg", 53.57532, 10.01534, 0, 0, null, null);
+        _cities[i++] = new City("Singapore", 1.28967, 103.85007, 0, 0, null, null);
+        _cities[i++] = new City("Duesseldorf", 51.22172, 6.77616, 0, 0, null, null);
+        _cities[i++] = new City("Fukuoka", 33.60639, 130.41806, 0, 0, null, null);
 
     }
 
@@ -73,7 +73,13 @@ public class MainActivity extends Activity
 	_citiesGridViewAdapter = new CitiesArrayAdapter(this, _cities);
 	citiesGridView.setAdapter(_citiesGridViewAdapter);
 
-	_loadCityTimeData();
+	Runnable loader = new Runnable() {
+		@Override
+		public void run() {
+		    _loadCityTimeData();
+		}
+	    };
+	new Thread(loader).start();
     }
 
     @Override
@@ -112,48 +118,59 @@ public class MainActivity extends Activity
 	Time now = new Time();
 	now.setToNow();
 	long timestamp = now.toMillis(true) / 1000;
-	City city = _cities[0];
 	URL url = null;
 	try {
-	    url = new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp));
-	    Log.v(TAG, "URL = " + url.toString());
-	}
-	catch (MalformedURLException e) {
-
-	}
-	try {
-	    urlConnection = (HttpsURLConnection) url.openConnection();
-	    urlConnection.setRequestProperty("Connection", "Keep-Alive");
-	}
-	catch (IOException e) {
-
-	}
-	try {
-	    if (urlConnection.getResponseCode() == 200) {
-		Scanner scanner = new Scanner(urlConnection.getInputStream());
-		scanner.useDelimiter("\\Z");
-		String jsonResponseStr = scanner.next();
-		Log.v(TAG, "Got response: " + jsonResponseStr);
-		JSONObject jsonResponse = new JSONObject(jsonResponseStr);
-		_cities[0] = new City(city.name(), city._lat, city._lng,
-				      jsonResponse.getInt("dstOffset"),
-				      jsonResponse.getInt("rawOffset"),
-				      jsonResponse.getString("timeZoneId"),
-				      jsonResponse.getString("timeZoneName"));
+	    for(int i=0; i<_cities.length; i++) {
+		City city = _cities[i];
+		try {
+		    url = new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp));
+		    Log.v(TAG, "URL = " + url.toString());
+		}
+		catch (MalformedURLException e) {
+		    
+		}
+		try {
+		    urlConnection = (HttpsURLConnection) url.openConnection();
+		    urlConnection.setRequestProperty("Connection", "Keep-Alive");
+		}
+		catch (IOException e) {
+		    
+		}
+		try {
+		    if (urlConnection.getResponseCode() == 200) {
+			Scanner scanner = new Scanner(urlConnection.getInputStream());
+			scanner.useDelimiter("\\Z");
+			String jsonResponseStr = scanner.next();
+			Log.v(TAG, "Got response: " + jsonResponseStr);
+			JSONObject jsonResponse = new JSONObject(jsonResponseStr);
+			_cities[i] = new City(city.name(), city._lat, city._lng,
+					      jsonResponse.getInt("dstOffset"),
+					      jsonResponse.getInt("rawOffset"),
+					      jsonResponse.getString("timeZoneId"),
+					      jsonResponse.getString("timeZoneName"));
+		    }
+		    else {
+		    }
+		    
+		}
+		catch (IOException e) {
+		    
+		}
+		catch (JSONException e) {
+		    
+		}
 	    }
-	    else {
-	    }
-
-	}
-	catch (IOException e) {
-
-	}
-	catch (JSONException e) {
-
 	}
 	finally {
-	    urlConnection.disconnect();
+	    if (urlConnection != null) 
+		urlConnection.disconnect();
 	}
+	runOnUiThread(new Runnable() {
+		@Override
+		public void run() {
+		    _citiesGridViewAdapter.notifyDataSetChanged();
+		}
+	    });		    
     }
 
     static class CityRowViewCache {

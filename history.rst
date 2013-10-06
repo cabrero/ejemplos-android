@@ -34,3 +34,8 @@ Hello Time, I'm in Internet
 - Los datos horarios de la primera ciudad se ponen a 0, y se descargan desde el
   webservice de google al crear la app.
   Problema 1: No se muestra nada en pantalla hasta que termina de cargar los datos.
+              Y no se puede interactuar con la app.
+- Se descargan los datos de todas las ciudades.
+  El problema 1 es todavía peor.
+  Problema 2: Si tardarmos demasiado, el sistema puede tirar la aplicación.
+  Lanzamos la carga en un thread aparte. Al finalizar actualizamos desde el thread IU.
