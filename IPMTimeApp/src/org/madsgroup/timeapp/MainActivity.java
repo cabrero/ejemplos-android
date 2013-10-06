@@ -119,10 +119,10 @@ public class MainActivity extends Activity
 
 	    if (rowView == null) {
 		LayoutInflater inflater = _context.getLayoutInflater();
-		rowView = inflater.inflate(android.R.layout.simple_list_item_2, null, true);
+		rowView = inflater.inflate(R.layout.city_row, null, true);
 		cityRowViewCache = new CityRowViewCache();
-		cityRowViewCache.tvName = (TextView) rowView.findViewById(android.R.id.text2);
-		cityRowViewCache.tvTime = (TextView) rowView.findViewById(android.R.id.text1);
+		cityRowViewCache.tvName = (TextView) rowView.findViewById(R.id.cityName);
+		cityRowViewCache.tvTime = (TextView) rowView.findViewById(R.id.cityTime);
 		rowView.setTag(cityRowViewCache);
 	    }
 	    else {
