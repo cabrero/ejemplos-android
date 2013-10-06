@@ -6,7 +6,7 @@ import android.text.format.Time;
 import android.widget.TextView;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ public class MainActivity extends Activity
 	
     private TextView _tvTime;
     private Handler _handler;
-    private ArrayAdapter<City> _citiesListViewAdapter;
+    private ArrayAdapter<City> _citiesGridViewAdapter;
 
     private City[] _cities = new City[22];
     private void _init() {
@@ -61,9 +61,9 @@ public class MainActivity extends Activity
 
 	_tvTime = (TextView) findViewById(R.id.label4time);
 	_handler = new Handler();
-        ListView citiesListView = (ListView) findViewById(R.id.citiesList);
-	_citiesListViewAdapter = new CitiesArrayAdapter(this, _cities);
-	citiesListView.setAdapter(_citiesListViewAdapter);
+        GridView citiesGridView = (GridView) findViewById(R.id.citiesGrid);
+	_citiesGridViewAdapter = new CitiesArrayAdapter(this, _cities);
+	citiesGridView.setAdapter(_citiesGridViewAdapter);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class MainActivity extends Activity
 	Time now = new Time();
 	now.setToNow();
 	_tvTime.setText(getString(R.string.isTime, now.format("%H:%M")));
-	_citiesListViewAdapter.notifyDataSetChanged();
+	_citiesGridViewAdapter.notifyDataSetChanged();
 	long delay = Math.abs(60 - now.second) * 1000;
 	_handler.postDelayed(new Runnable() {
 			public void run() {
@@ -107,7 +107,7 @@ public class MainActivity extends Activity
 	private City[] _cities;
 
 	public CitiesArrayAdapter(Activity context, City[] cities) {
-	    super(context, R.layout.city_row, cities);
+	    super(context, R.layout.city_cell, cities);
 	    _context = context;
 	    _cities = cities;
 	}
@@ -119,7 +119,7 @@ public class MainActivity extends Activity
 
 	    if (rowView == null) {
 		LayoutInflater inflater = _context.getLayoutInflater();
-		rowView = inflater.inflate(R.layout.city_row, null, true);
+		rowView = inflater.inflate(R.layout.city_cell, null, true);
 		cityRowViewCache = new CityRowViewCache();
 		cityRowViewCache.tvName = (TextView) rowView.findViewById(R.id.cityName);
 		cityRowViewCache.tvTime = (TextView) rowView.findViewById(R.id.cityTime);

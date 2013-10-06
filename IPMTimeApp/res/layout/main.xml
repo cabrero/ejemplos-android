@@ -16,11 +16,15 @@
    android:gravity="center"
    android:id="@+id/label4time"
    />
-<ListView
-    android:id="@+id/citiesList"
+<GridView
+    android:id="@+id/citiesGrid"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
+    android:columnWidth="90dp"
+    android:numColumns="auto_fit"
+    android:horizontalSpacing="10dp"
+    android:stretchMode="spacingWidth"
+    android:verticalSpacing="13.3dp"
     />
 </LinearLayout>
 
