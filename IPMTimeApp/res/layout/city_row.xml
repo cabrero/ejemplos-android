@@ -6,7 +6,7 @@
     >
 <TextView
     android:id="@+id/cityName"
-    android:layout_width="0dp"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
@@ -17,7 +17,7 @@
     />
 <TextView
     android:id="@+id/cityTime"
-    android:layout_width="?android:attr/listPreferredItemHeight"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_weight="0"
     android:layout_gravity="right"
