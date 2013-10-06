@@ -19,3 +19,10 @@ Hello Time
 - Comprobamos que el handler.postDelayed sigue funcionando cuando estamos en
   background usando el Log
 - Borramos la cola del handler antes de irnos a background.
+
+=====
+Hello World Time
+=====
+- Añadimos un recurso con una lista de ciudades y un ListView
+- Pasamos del recurso y añadirmos una lista de objetos de tipo City.
+  La ListView pasa a mostrar un array de City.

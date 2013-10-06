@@ -16,5 +16,11 @@
    android:gravity="center"
    android:id="@+id/label4time"
    />
+<ListView
+    android:id="@+id/citiesList"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    />
 </LinearLayout>
 

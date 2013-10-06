@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="cityNames">
+    <item>Madrid (Spain)</item>
+    <item>Barcelona (Spain)</item>
+    <item>Amsterdam (Netherlands)</item>
+    <item>Stockholm (Sweden)</item>
+    <item>Sydney (Australia)</item>
+    <item>Zürich (Switzerland)</item>
+    <item>Vienna (Austria)</item>
+    <item>Copenhague (Denmark)</item>
+    <item>Vancouver (Canada)</item>
+    <item>Helsinki (Finland)</item>
+    <item>Paris (France)</item>
+    <item>San Francisco (EEUU)</item>
+    <item>Honolulu (EEUU)</item>
+    <item>Melbourne (Australia)</item>
+    <item>Berlin (Germany)</item>
+    <item>Tokyo (Japan)</item>
+    <item>Auckland (New Zealand)</item>
+    <item>Kyoto (Japan)</item>
+    <item>Munich (Germany)</item>
+    <item>Hamburg (Germany)</item>
+    <item>Singapore (Republic of Singapore)</item>
+    <item>Porland (EEUU)</item>
+    <item>Dusseldorf (Germany)</item>
+    <item>Hong Kong (China)</item>
+    <item>Fukuoka (Japan)</item>
+  </string-array>
+</resources>
