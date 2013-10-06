@@ -26,3 +26,8 @@ Hello World Time
 - Añadimos un recurso con una lista de ciudades y un ListView
 - Pasamos del recurso y añadirmos una lista de objetos de tipo City.
   La ListView pasa a mostrar un array de City.
+
+=====
+Hello Time, I'm in Internet
+=====
+- Declaramos permiso para acceder a Internet en el Manifiesto.
