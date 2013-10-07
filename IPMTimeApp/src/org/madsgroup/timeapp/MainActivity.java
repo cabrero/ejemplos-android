@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.net.MalformedURLException;
 import java.util.Locale;
+import android.app.ProgressDialog;
 
 
 public class MainActivity extends Activity
@@ -28,6 +29,7 @@ public class MainActivity extends Activity
     private TextView _tvTime;
     private Handler _handler;
     private ArrayAdapter<City> _citiesGridViewAdapter;
+    private ProgressDialog _progressDialog;
 
     private City[] _cities = new City[22];
     private void _init() {
@@ -73,6 +75,12 @@ public class MainActivity extends Activity
 	_citiesGridViewAdapter = new CitiesArrayAdapter(this, _cities);
 	citiesGridView.setAdapter(_citiesGridViewAdapter);
 
+	_progressDialog = new ProgressDialog(MainActivity.this);
+	_progressDialog.setTitle(getString(R.string.downloadingData));
+	_progressDialog.setMessage(getString(R.string.downloadingTimeInfo));
+	_progressDialog.setProgressStyle(_progressDialog.STYLE_HORIZONTAL);
+	_progressDialog.setMax(_cities.length);
+	_progressDialog.show();
 	Runnable loader = new Runnable() {
 		@Override
 		public void run() {
@@ -121,7 +129,13 @@ public class MainActivity extends Activity
 	URL url = null;
 	try {
 	    for(int i=0; i<_cities.length; i++) {
-		City city = _cities[i];
+		final City city = _cities[i];
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+			    _progressDialog.setMessage(getString(R.string.downloadingTimeInfo)+city.name());
+			}
+		    });
 		try {
 		    url = new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp));
 		    Log.v(TAG, "URL = " + url.toString());
@@ -159,6 +173,12 @@ public class MainActivity extends Activity
 		catch (JSONException e) {
 		    
 		}
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+			    _progressDialog.incrementProgressBy(1);
+			}
+		    });
 	    }
 	}
 	finally {
@@ -168,6 +188,7 @@ public class MainActivity extends Activity
 	runOnUiThread(new Runnable() {
 		@Override
 		public void run() {
+		    _progressDialog.dismiss();
 		    _citiesGridViewAdapter.notifyDataSetChanged();
 		}
 	    });		    
