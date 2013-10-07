@@ -41,3 +41,4 @@ Hello Time, I'm in Internet
   Lanzamos la carga en un thread aparte. Al finalizar actualizamos desde el thread IU.
 - Puesto que hasta que carga los datos no se muestra ninguna hora, añadimos feedback
   del progreso de la carga.
+- Añadimos una llamada más para geolocalizar el dispositivo por la IP.

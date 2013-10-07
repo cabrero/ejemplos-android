@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">¡Hola Mundo!</string>
+    <string name="isLocation">¡Hola %1$s!</string>
     <string name="isTime">Son las %1$s</string>
     <string name="downloadingData">"Descargado Datos ..."</string>
     <string name="downloadingTimeInfo">"Zona horaria: "</string>

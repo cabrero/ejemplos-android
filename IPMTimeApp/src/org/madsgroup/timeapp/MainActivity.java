@@ -24,8 +24,9 @@ import android.app.ProgressDialog;
 
 public class MainActivity extends Activity
 {
-    private static final String TAG = "IPM_TUT";
-	
+
+    private String _locationName = "";
+    private TextView _tvLocation;
     private TextView _tvTime;
     private Handler _handler;
     private ArrayAdapter<City> _citiesGridViewAdapter;
@@ -69,6 +70,7 @@ public class MainActivity extends Activity
 
 	_init();
 
+	_tvLocation = (TextView) findViewById(R.id.label4location);
 	_tvTime = (TextView) findViewById(R.id.label4time);
 	_handler = new Handler();
         GridView citiesGridView = (GridView) findViewById(R.id.citiesGrid);
@@ -88,6 +90,12 @@ public class MainActivity extends Activity
 		}
 	    };
 	new Thread(downloader).start();
+	new Thread(new Runnable() {
+		@Override
+		public void run() {
+		    _downloadLocation();
+		}
+	    }).start();
     }
 
     @Override
@@ -104,9 +112,14 @@ public class MainActivity extends Activity
         _handler.removeCallbacksAndMessages(null);
     }
 
+    private void _updateLocation(String name) {
+	_tvLocation.setText(getString(R.string.isLocation, name));
+	_locationName = name;
+    }
+
     private void _updateTime()
     {
-        Log.v(TAG, "update time");
+        Log.v(Util.TAG, "update time");
 	Time now = new Time();
 	now.setToNow();
 	_tvTime.setText(getString(R.string.isTime, now.format("%H:%M")));
@@ -120,6 +133,26 @@ public class MainActivity extends Activity
 		delay);
     }
 
+    private void _downloadLocation() {
+	final String name;
+	try {
+	    JSONObject jsonObject = Util.downloadJSONObject(new URL("http://freegeoip.net/json/"));
+	    name = jsonObject.getString("city");
+	    runOnUiThread(new Runnable() {
+		    @Override
+		    public void run() {
+			_updateLocation(name);
+		    }
+		});
+	}
+	catch (MalformedURLException e) {
+	}
+	catch (JSONException e) {
+	}
+	catch (IOException e) {
+	}
+    }
+
     private void _downloadCityTimeData() {
 	HttpsURLConnection urlConnection = null;
 	String urlStr = "https://maps.googleapis.com/maps/api/timezone/json?location=%f,%f&timestamp=%d&sensor=false";
@@ -127,63 +160,35 @@ public class MainActivity extends Activity
 	now.setToNow();
 	long timestamp = now.toMillis(true) / 1000;
 	URL url = null;
-	try {
-	    for(int i=0; i<_cities.length; i++) {
-		final City city = _cities[i];
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-			    _progressDialog.setMessage(getString(R.string.downloadingTimeInfo)+city.name());
-			}
-		    });
-		try {
-		    url = new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp));
-		    Log.v(TAG, "URL = " + url.toString());
-		}
-		catch (MalformedURLException e) {
-		    
-		}
-		try {
-		    urlConnection = (HttpsURLConnection) url.openConnection();
-		    urlConnection.setRequestProperty("Connection", "Keep-Alive");
-		}
-		catch (IOException e) {
-		    
-		}
-		try {
-		    if (urlConnection.getResponseCode() == 200) {
-			Scanner scanner = new Scanner(urlConnection.getInputStream());
-			scanner.useDelimiter("\\Z");
-			String jsonResponseStr = scanner.next();
-			Log.v(TAG, "Got response: " + jsonResponseStr);
-			JSONObject jsonResponse = new JSONObject(jsonResponseStr);
-			_cities[i] = new City(city.name(), city._lat, city._lng,
-					      jsonResponse.getInt("dstOffset"),
-					      jsonResponse.getInt("rawOffset"),
-					      jsonResponse.getString("timeZoneId"),
-					      jsonResponse.getString("timeZoneName"));
+	for(int i=0; i<_cities.length; i++) {
+	    final City city = _cities[i];
+	    runOnUiThread(new Runnable() {
+		    @Override
+		    public void run() {
+			_progressDialog.setMessage(getString(R.string.downloadingTimeInfo)+city.name());
 		    }
-		    else {
-		    }
-		    
-		}
-		catch (IOException e) {
-		    
-		}
-		catch (JSONException e) {
-		    
-		}
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-			    _progressDialog.incrementProgressBy(1);
-			}
-		    });
+		});
+	    try {
+		JSONObject jsonObject = Util.downloadJSONObject(new URL(String.format((Locale) null, urlStr, city._lat, city._lng, timestamp)));
+		_cities[i] = new City(city.name(), city._lat, city._lng,
+				      jsonObject.getInt("dstOffset"),
+				      jsonObject.getInt("rawOffset"),
+				      jsonObject.getString("timeZoneId"),
+				      jsonObject.getString("timeZoneName"));
+		
 	    }
-	}
-	finally {
-	    if (urlConnection != null) 
-		urlConnection.disconnect();
+	    catch (MalformedURLException e) {
+	    }
+	    catch (IOException e) {
+	    }
+	    catch (JSONException e) {		    
+	    }
+	    runOnUiThread(new Runnable() {
+		    @Override
+		    public void run() {
+			_progressDialog.incrementProgressBy(1);
+		    }
+		});
 	}
 	runOnUiThread(new Runnable() {
 		@Override
