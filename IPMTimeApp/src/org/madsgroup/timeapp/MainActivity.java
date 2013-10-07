@@ -81,13 +81,13 @@ public class MainActivity extends Activity
 	_progressDialog.setProgressStyle(_progressDialog.STYLE_HORIZONTAL);
 	_progressDialog.setMax(_cities.length);
 	_progressDialog.show();
-	Runnable loader = new Runnable() {
+	Runnable downloader = new Runnable() {
 		@Override
 		public void run() {
-		    _loadCityTimeData();
+		    _downloadCityTimeData();
 		}
 	    };
-	new Thread(loader).start();
+	new Thread(downloader).start();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MainActivity extends Activity
 		delay);
     }
 
-    private void _loadCityTimeData() {
+    private void _downloadCityTimeData() {
 	HttpsURLConnection urlConnection = null;
 	String urlStr = "https://maps.googleapis.com/maps/api/timezone/json?location=%f,%f&timestamp=%d&sensor=false";
 	Time now = new Time();
