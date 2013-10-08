@@ -42,3 +42,8 @@ Hello Time, I'm in Internet
 - Puesto que hasta que carga los datos no se muestra ninguna hora, añadimos feedback
   del progreso de la carga.
 - Añadimos una llamada más para geolocalizar el dispositivo por la IP.
+- Finalmente tenemos que manejar las siguientes situaciones:
+  * El dispoisitivo no tiene conexión de datos: avisar que así la app no es funcional.
+  * Las llamadas a las apis de los servicios remotos producen un error: avisar de que
+    hubo un error y que por tanto la app no es del todo funcional.
+  Complementar con un menu y la acción de actualizar.
