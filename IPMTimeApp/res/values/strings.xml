@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IPM Android Tutorial</string>
+    <string name="hello">Hello World!</string>
+    <string name="isLocation">Hello %1$s!</string>
+    <string name="isTime">It\'s %1$s</string>
+    <string name="downloadingData">"Downloading Data ..."</string>
+    <string name="downloadingTimeInfo">"Time zone: "</string>
+</resources>

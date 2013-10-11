@@ -1,4 +1,4 @@
 ejemplos-android
 ================
 
-Ejemplos de programación para la plataforma android
+Ejemplos de programación para la plataforma android.

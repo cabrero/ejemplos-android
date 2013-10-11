@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/hello"
+    android:id="@+id/label4location"
+    />
+<TextView
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:gravity="center"
+   android:textAppearance="?android:attr/textAppearanceListItem"
+   android:id="@+id/label4time"
+   />
+<GridView
+    android:id="@+id/citiesGrid"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:columnWidth="90dp"
+    android:numColumns="auto_fit"
+    android:horizontalSpacing="10dp"
+    android:stretchMode="spacingWidth"
+    android:verticalSpacing="13.3dp"
+    />
+</LinearLayout>
+
